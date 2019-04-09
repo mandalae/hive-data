@@ -1,0 +1,17 @@
+{
+  "name": "hive-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "http-post": "^0.1.1",
+    "node-cron": "^2.0.3",
+    "winston": "^3.2.1",
+    "winston-loki": "^4.0.0"
+  }
+}
