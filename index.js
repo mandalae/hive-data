@@ -26,15 +26,16 @@ if (!process.env.HIVE_USERNAME && !process.env.HIVE_PASSWORD){
                         targetTemp = item.attributes.targetHeatTemperature;
                         currentTemp = item.attributes.temperature;
                     } else {
+                        const normalisedName = item.name.replace(' ', '_');
                         if (item.attributes.powerConsumption){
-                            logger.info('hiveData,dataType=powerConsumption,device="' + item.name + '" reportedValue=' + item.attributes.powerConsumption.reportedValue);
-                            makeRequest.saveMetric('hiveData,dataType=powerConsumption,device="' + item.name + '" reportedValue=' + item.attributes.powerConsumption.reportedValue).then(data => {
+                            logger.info('hiveData,dataType=powerConsumption,device=' + normalisedName + ' reportedValue=' + item.attributes.powerConsumption.reportedValue);
+                            makeRequest.saveMetric('hiveData,dataType=powerConsumption,device=' + normalisedName + ' reportedValue=' + item.attributes.powerConsumption.reportedValue).then(data => {
                                 logger.info(data);
                             });
                         }
                         if (item.attributes.state){
-                            logger.info('hiveData,dataType=lightState,device="' + item.name + '" reportedValue=' + (item.attributes.state.reportedValue === 'ON' ? 1 : 0));
-                            makeRequest.saveMetric('hiveData,dataType=lightState,device="' + item.name + '" reportedValue=' + (item.attributes.state.reportedValue === 'ON' ? 1 : 0)).then(data => {
+                            logger.info('hiveData,dataType=lightState,device=' + normalisedName + ' reportedValue=' + (item.attributes.state.reportedValue === 'ON' ? 1 : 0));
+                            makeRequest.saveMetric('hiveData,dataType=lightState,device=' + normalisedName + ' reportedValue=' + (item.attributes.state.reportedValue === 'ON' ? 1 : 0)).then(data => {
                                 logger.info(data);
                             });
                         }
