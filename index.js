@@ -26,7 +26,7 @@ if (!process.env.HIVE_USERNAME && !process.env.HIVE_PASSWORD){
                         targetTemp = item.attributes.targetHeatTemperature;
                         currentTemp = item.attributes.temperature;
                     } else {
-                        const normalisedName = item.name.replace(' ', '_');
+                        const normalisedName = item.name.replace(/\s/g, '_');
                         if (item.attributes.powerConsumption){
                             logger.info('hiveData,dataType=powerConsumption,device=' + normalisedName + ' reportedValue=' + item.attributes.powerConsumption.reportedValue);
                             makeRequest.saveMetric('hiveData,dataType=powerConsumption,device=' + normalisedName + ' reportedValue=' + item.attributes.powerConsumption.reportedValue).then(data => {
