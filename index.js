@@ -15,7 +15,7 @@ let heatingOn = 0
 if (!process.env.HIVE_USERNAME && !process.env.HIVE_PASSWORD){
     logger.error("No username and / or password set")
 } else {
-    // cron.schedule('* * * * *', () => {
+    cron.schedule('* * * * *', () => {
         login().then(getNodes).then((result) => {
             result.nodes.forEach(item => {
                 if (item.name.indexOf('http://') == -1){
@@ -63,5 +63,5 @@ if (!process.env.HIVE_USERNAME && !process.env.HIVE_PASSWORD){
 
         // Find all hue lights on indoor bridge
         hueLogger();
-    // });
+    });
 }
