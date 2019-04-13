@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "http-post": "^0.1.1",
+    "huejay": "^1.8.5",
     "node-cron": "^2.0.3",
     "winston": "^3.2.1",
     "winston-loki": "^4.0.0"
