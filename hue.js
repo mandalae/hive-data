@@ -40,8 +40,8 @@ client.lights.getAll()
       console.log();
 
       const normalisedName = light.name.replace(/\s/g, '_');
-      logger.info('hueData,dataType=lightState,device=' + normalisedName + ' reportedValue=' + light.on ? 1 : 0);
-      makeRequest.saveMetric('hueData,dataType=lightState,device=' + normalisedName + ' reportedValue=' + light.on ? 1 : 0).then(data => {
+      logger.info('hueData,dataType=lightState,device=' + normalisedName + ' reportedValue=' + (light.on ? 1 : 0));
+      makeRequest.saveMetric('hueData,dataType=lightState,device=' + normalisedName + ' reportedValue=' + (light.on ? 1 : 0)).then(data => {
           logger.info(data);
       });
     }
