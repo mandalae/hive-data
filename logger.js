@@ -9,7 +9,8 @@ const options = {
     new winston.transports.Console(),
     new LokiTransport({
       host: "http://192.168.0.130:3100"
-    })
+    }),
+    new winston.transports.File({ filename: 'hive-data.log' })
   ]
 };
 const logger = createLogger(options);
