@@ -8,7 +8,7 @@ const options = {
   transports: [
     new winston.transports.Console(),
     new LokiTransport({
-      host: "http://192.168.0.130:3100"
+      host: "https://2500:" + process.env.LOKI_API_KEY + "@logs-us-west1.grafana.net/api/prom/push"
     }),
     new winston.transports.File({ filename: 'hive-data.log' })
   ]
