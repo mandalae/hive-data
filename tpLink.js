@@ -13,7 +13,7 @@ var logEvent = function (eventName, device, state) {
 // Look for devices, log to console, and turn them on
 client.startDiscovery().on('device-new', (device) => {
     logEvent('device-new', device);
-    device.startPolling(5000);
+    device.startPolling(60000);
 
     device.on('emeter-realtime-update', (emeterRealtime) => {
 
