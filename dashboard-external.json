@@ -1,4 +1,40 @@
 {
+  "__inputs": [
+    {
+      "name": "DS_INFLUXDB",
+      "label": "InfluxDB",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "influxdb",
+      "pluginName": "InfluxDB"
+    }
+  ],
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "6.1.6"
+    },
+    {
+      "type": "panel",
+      "id": "graph",
+      "name": "Graph",
+      "version": ""
+    },
+    {
+      "type": "datasource",
+      "id": "influxdb",
+      "name": "InfluxDB",
+      "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "singlestat",
+      "name": "Singlestat",
+      "version": ""
+    }
+  ],
   "annotations": {
     "list": [
       {
@@ -15,8 +51,8 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 1,
-  "iteration": 1557675056212,
+  "id": null,
+  "iteration": 1557992646266,
   "links": [],
   "panels": [
     {
@@ -24,7 +60,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "InfluxDB",
+      "datasource": "${DS_INFLUXDB}",
       "decimals": null,
       "fill": 1,
       "gridPos": {
@@ -33,7 +69,7 @@
         "x": 0,
         "y": 0
       },
-      "id": 8,
+      "id": 11,
       "legend": {
         "alignAsTable": true,
         "avg": false,
@@ -205,6 +241,140 @@
               "value": "Office_spot_3"
             }
           ]
+        },
+        {
+          "alias": "$tag_device",
+          "groupBy": [
+            {
+              "params": [
+                "1h"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "device"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "hueLightData",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT cumulative_sum(last(\"reportedValue\"))  / 60 * 6.5 * $pricePerkWh FROM \"hueLightData\" WHERE (\"dataType\" = 'lightState' AND \"device\" =~ /Kitchen.+|Bathroom.+/) AND $timeFilter GROUP BY time(1h), \"device\" fill(null)",
+          "rawQuery": true,
+          "refId": "C",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "reportedValue"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              },
+              {
+                "params": [],
+                "type": "cumulative_sum"
+              },
+              {
+                "params": [
+                  " / 60 * 4.8 * $pricePerkWh"
+                ],
+                "type": "math"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "dataType",
+              "operator": "=",
+              "value": "lightState"
+            },
+            {
+              "condition": "AND",
+              "key": "device",
+              "operator": "=",
+              "value": "select tag value"
+            }
+          ]
+        },
+        {
+          "alias": "$tag_device",
+          "groupBy": [
+            {
+              "params": [
+                "1h"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "device"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "hueLightData",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT cumulative_sum(last(\"reportedValue\"))  / 60 * 6 * $pricePerkWh FROM \"hueLightData\" WHERE (\"dataType\" = 'lightState' AND \"device\" =~ /Dining.+|Front_room.+/) AND $timeFilter GROUP BY time(1h), \"device\" fill(null)",
+          "rawQuery": true,
+          "refId": "D",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "reportedValue"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              },
+              {
+                "params": [],
+                "type": "cumulative_sum"
+              },
+              {
+                "params": [
+                  " / 60 * 4.8 * $pricePerkWh"
+                ],
+                "type": "math"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "dataType",
+              "operator": "=",
+              "value": "lightState"
+            },
+            {
+              "condition": "AND",
+              "key": "device",
+              "operator": "=",
+              "value": "select tag value"
+            }
+          ]
         }
       ],
       "thresholds": [],
@@ -259,7 +429,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": "InfluxDB",
+      "datasource": "${DS_INFLUXDB}",
       "decimals": 4,
       "format": "currencyGBP",
       "gauge": {
@@ -363,36 +533,6 @@
               "key": "dataType",
               "operator": "=",
               "value": "powerConsumption"
-            },
-            {
-              "condition": "OR",
-              "key": "dataType",
-              "operator": "=",
-              "value": "lightState"
-            },
-            {
-              "condition": "AND",
-              "key": "device",
-              "operator": "=",
-              "value": "Office_1"
-            },
-            {
-              "condition": "OR",
-              "key": "device",
-              "operator": "=",
-              "value": "Office_2"
-            },
-            {
-              "condition": "or",
-              "key": "device",
-              "operator": "=",
-              "value": "Office_spot_3"
-            },
-            {
-              "condition": "OR",
-              "key": "device",
-              "operator": "=",
-              "value": "Laundry_Cupboard"
             }
           ]
         }
@@ -421,7 +561,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": "InfluxDB",
+      "datasource": "${DS_INFLUXDB}",
       "decimals": 4,
       "format": "currencyGBP",
       "gauge": {
@@ -544,14 +684,206 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "InfluxDB",
+      "datasource": "${DS_INFLUXDB}",
       "decimals": 0,
       "fill": 1,
       "gridPos": {
-        "h": 5,
-        "w": 12,
+        "h": 7,
+        "w": 24,
         "x": 0,
         "y": 6
+      },
+      "id": 7,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": true,
+        "max": false,
+        "min": false,
+        "rightSide": true,
+        "show": true,
+        "sort": "total",
+        "sortDesc": true,
+        "total": true,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "connected",
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "alias": "$tag_device",
+          "groupBy": [
+            {
+              "params": [
+                "1m"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "device"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "hiveData",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "reportedValue"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "dataType",
+              "operator": "=",
+              "value": "powerConsumption"
+            }
+          ]
+        },
+        {
+          "alias": "$tag_device",
+          "groupBy": [
+            {
+              "params": [
+                "1h"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "device"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "hueLightData",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "B",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "reportedValue"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              },
+              {
+                "params": [],
+                "type": "cumulative_sum"
+              },
+              {
+                "params": [
+                  " / 60 * 6"
+                ],
+                "type": "math"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "dataType",
+              "operator": "=",
+              "value": "lightState"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Power Consumption",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "decimals": 0,
+          "format": "watt",
+          "label": null,
+          "logBase": 10,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "${DS_INFLUXDB}",
+      "decimals": 0,
+      "fill": 1,
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 0,
+        "y": 13
       },
       "id": 6,
       "legend": {
@@ -726,21 +1058,21 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "InfluxDB",
-      "decimals": 0,
+      "datasource": "${DS_INFLUXDB}",
+      "decimals": null,
       "fill": 1,
       "gridPos": {
-        "h": 5,
+        "h": 6,
         "w": 12,
         "x": 12,
-        "y": 6
+        "y": 13
       },
-      "id": 7,
+      "id": 12,
       "legend": {
         "alignAsTable": true,
         "avg": false,
-        "current": true,
-        "max": false,
+        "current": false,
+        "max": true,
         "min": false,
         "rightSide": true,
         "show": true,
@@ -752,14 +1084,14 @@
       "lines": true,
       "linewidth": 1,
       "links": [],
-      "nullPointMode": "connected",
+      "nullPointMode": "null",
       "percentage": false,
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
       "seriesOverrides": [],
       "spaceLength": 10,
-      "stack": false,
+      "stack": true,
       "steppedLine": false,
       "targets": [
         {
@@ -787,7 +1119,9 @@
           "measurement": "hiveData",
           "orderByTime": "ASC",
           "policy": "default",
-          "refId": "A",
+          "query": "SELECT cumulative_sum(last(\"reportedValue\"))  / 1000 * $pricePerkWh FROM \"hiveData\" WHERE (\"dataType\" = 'powerConsumption' AND \"dataType\" =~ /^$/) AND $timeFilter GROUP BY time(1m), \"device\" fill(null)",
+          "rawQuery": false,
+          "refId": "B",
           "resultFormat": "time_series",
           "select": [
             [
@@ -807,7 +1141,98 @@
             {
               "key": "dataType",
               "operator": "=",
-              "value": "powerConsumption"
+              "value": "lightState"
+            },
+            {
+              "condition": "AND",
+              "key": "device",
+              "operator": "=",
+              "value": "Laundry_Cupboard"
+            },
+            {
+              "condition": "OR",
+              "key": "device",
+              "operator": "=",
+              "value": "Office_1"
+            },
+            {
+              "condition": "OR",
+              "key": "device",
+              "operator": "=",
+              "value": "Office_2"
+            },
+            {
+              "condition": "OR",
+              "key": "device",
+              "operator": "=",
+              "value": "Office_spot_3"
+            }
+          ]
+        },
+        {
+          "alias": "$tag_device",
+          "groupBy": [
+            {
+              "params": [
+                "1h"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "device"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "hueLightData",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT last(\"reportedValue\")  FROM \"hueLightData\" WHERE (\"dataType\" = 'lightState' ) AND $timeFilter GROUP BY time(1m), \"device\" fill(null)",
+          "rawQuery": true,
+          "refId": "C",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "reportedValue"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              },
+              {
+                "params": [],
+                "type": "cumulative_sum"
+              },
+              {
+                "params": [
+                  " / 60 * 4.8 * $pricePerkWh"
+                ],
+                "type": "math"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "dataType",
+              "operator": "=",
+              "value": "lightState"
+            },
+            {
+              "condition": "AND",
+              "key": "device",
+              "operator": "=",
+              "value": "select tag value"
             }
           ]
         }
@@ -816,9 +1241,9 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Power Consumption",
+      "title": "Lights on",
       "tooltip": {
-        "shared": true,
+        "shared": false,
         "sort": 0,
         "value_type": "individual"
       },
@@ -832,10 +1257,10 @@
       },
       "yaxes": [
         {
-          "decimals": 0,
-          "format": "watt",
+          "decimals": null,
+          "format": "short",
           "label": null,
-          "logBase": 10,
+          "logBase": 1,
           "max": null,
           "min": null,
           "show": true
@@ -899,7 +1324,7 @@
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 11
+        "y": 19
       },
       "id": 4,
       "legend": {
@@ -1067,22 +1492,23 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "InfluxDB",
+      "datasource": "${DS_INFLUXDB}",
       "decimals": 2,
       "fill": 1,
       "gridPos": {
         "h": 5,
         "w": 24,
         "x": 0,
-        "y": 18
+        "y": 26
       },
       "id": 2,
       "legend": {
+        "alignAsTable": true,
         "avg": false,
         "current": false,
         "max": false,
         "min": false,
-        "rightSide": true,
+        "rightSide": false,
         "show": true,
         "total": true,
         "values": true
@@ -1284,5 +1710,5 @@
   "timezone": "",
   "title": "Hive Data",
   "uid": "rEpn_GgRk",
-  "version": 4
+  "version": 13
 }

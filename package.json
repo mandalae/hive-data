@@ -12,6 +12,7 @@
     "http-post": "^0.1.1",
     "huejay": "^1.8.5",
     "node-cron": "^2.0.3",
+    "tplink-smarthome-api": "^1.2.0",
     "winston": "^3.2.1",
     "winston-loki": "^4.0.0"
   }
