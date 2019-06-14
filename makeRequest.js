@@ -12,8 +12,8 @@ module.exports = {
             path: '/omnia/' + path,
             method: 'POST',
             headers: {
-                'Content-Type': 'application/vnd.alertme.zoo-6.1+json',
-                'Accept': 'application/vnd.alertme.zoo-6.1+json',
+                'Content-Type': 'application/vnd.alertme.zoo-6.6+json',
+                'Accept': 'application/vnd.alertme.zoo-6.6+json',
                 'X-Omnia-Client': 'Hive Web Dashboard',
                 'Content-Length': JSON.stringify(postData).length
             }
